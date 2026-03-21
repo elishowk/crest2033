@@ -2,13 +2,14 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import RadioPapote from "../components/RadioPapote.astro";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Suivi des engagements de la liste AVEC — Agir et Vivre Ensemble à Crest" } = Astro.props;
+const { title, description = "Suivi des engagements de la liste AVEC — Agir et Vivre Ensemble à Crest — crest2033.fr" } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,13 +25,15 @@ const { title, description = "Suivi des engagements de la liste AVEC — Agir et
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>{title} — Suivi AVEC Crest</title>
+    <link rel="canonical" href="https://crest2033.fr/" />
+    <title>{title} — crest2033.fr</title>
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1">
       <slot />
     </main>
+    <RadioPapote />
     <Footer />
   </body>
 </html>

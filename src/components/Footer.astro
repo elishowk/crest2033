@@ -39,14 +39,60 @@ const year = new Date().getFullYear();
       </div>
       <div>
         <h4 class="font-heading font-bold text-white mb-3">Contribuer</h4>
-        <p class="text-sm text-avec-gray leading-relaxed">
+        <p class="text-sm text-avec-gray leading-relaxed mb-4">
           Ce site est open source. Vous pouvez contribuer en signalant des avancées,
           en commentant ou en votant pour les engagements prioritaires.
         </p>
+        <div class="flex flex-col gap-2">
+          <a
+            href="https://github.com/elishowk/crest2033/fork"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/15 rounded-lg text-sm font-semibold text-white transition-colors w-fit"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+            </svg>
+            Fork & proposer une amélioration
+          </a>
+          <a
+            href="https://github.com/elishowk/crest2033/issues/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm text-avec-gray hover:text-avec-gold transition-colors"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+              <path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z" />
+            </svg>
+            Signaler un problème
+          </a>
+          <a
+            href="https://github.com/elishowk/crest2033"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm text-avec-gray hover:text-avec-gold transition-colors"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+            </svg>
+            Code source sur GitHub
+          </a>
+          <a
+            href="mailto:contact@crest2033.fr"
+            class="inline-flex items-center gap-2 text-sm text-avec-gray hover:text-avec-gold transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+              <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+            </svg>
+            contact@crest2033.fr
+          </a>
+        </div>
       </div>
     </div>
     <div class="border-t border-avec-dark-light mt-8 pt-8 text-center text-sm text-avec-gray">
-      <p>&copy; {year} — Suivi citoyen des engagements AVEC Crest. Données issues du programme officiel.</p>
+      <p>&copy; {year} — <a href="https://crest2033.fr" class="hover:text-avec-gold transition-colors">crest2033.fr</a> — Suivi citoyen des engagements AVEC Crest. Données issues du programme officiel.</p>
     </div>
   </div>
 </footer>
