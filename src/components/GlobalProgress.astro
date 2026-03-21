@@ -1,0 +1,53 @@
+---
+interface Props {
+  total: number;
+  done: number;
+  inProgress: number;
+}
+
+const { total, done, inProgress } = Astro.props;
+const progressPercent = total > 0 ? Math.round((done / total) * 100) : 0;
+const inProgressPercent = total > 0 ? Math.round((inProgress / total) * 100) : 0;
+---
+
+<div class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 p-6 sm:p-8">
+  <div class="grid grid-cols-3 gap-4 sm:gap-8 mb-6">
+    <div class="text-center">
+      <div class="text-3xl sm:text-4xl font-heading font-extrabold text-avec-green">
+        {done}
+      </div>
+      <div class="text-xs sm:text-sm text-avec-gray mt-1">Réalisées</div>
+    </div>
+    <div class="text-center">
+      <div class="text-3xl sm:text-4xl font-heading font-extrabold text-avec-terracotta">
+        {inProgress}
+      </div>
+      <div class="text-xs sm:text-sm text-avec-gray mt-1">En cours</div>
+    </div>
+    <div class="text-center">
+      <div class="text-3xl sm:text-4xl font-heading font-extrabold text-avec-dark-light">
+        {total}
+      </div>
+      <div class="text-xs sm:text-sm text-avec-gray mt-1">Total</div>
+    </div>
+  </div>
+
+  <div class="w-full bg-avec-gray-light rounded-full h-4 overflow-hidden flex">
+    {progressPercent > 0 && (
+      <div
+        class="bg-avec-green h-full transition-all duration-700"
+        style={`width: ${progressPercent}%`}
+      />
+    )}
+    {inProgressPercent > 0 && (
+      <div
+        class="bg-avec-terracotta h-full transition-all duration-700"
+        style={`width: ${inProgressPercent}%`}
+      />
+    )}
+  </div>
+  <div class="flex justify-between mt-2 text-xs text-avec-gray">
+    <span>{progressPercent}% réalisé</span>
+    <span>{inProgressPercent}% en cours</span>
+  </div>
+</div>

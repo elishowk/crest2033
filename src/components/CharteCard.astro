@@ -1,0 +1,66 @@
+---
+import ProgressBar from "./ProgressBar.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  status: "non-demarree" | "en-cours" | "avancee" | "realisee";
+  actions: { label: string; done: boolean; date?: string }[];
+  body: string;
+}
+
+const { id, title, icon, description, status, actions, body } = Astro.props;
+const doneCount = actions.filter((a) => a.done).length;
+const progress = actions.length > 0 ? Math.round((doneCount / actions.length) * 100) : 0;
+---
+
+<article class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 overflow-hidden" id={id}>
+  <div class="p-6">
+    <div class="flex items-center gap-3 mb-3">
+      <span class="text-2xl" role="img" aria-label={title}>{icon}</span>
+      <h3 class="font-heading font-bold text-lg text-avec-dark">{title}</h3>
+    </div>
+
+    <p class="text-sm text-avec-dark-light leading-relaxed mb-4">
+      {description}
+    </p>
+
+    <ProgressBar progress={progress} status={status} size="sm" />
+
+    {actions.length > 0 && (
+      <ul class="mt-4 space-y-2">
+        {actions.map((action) => (
+          <li class="flex items-start gap-2">
+            <span class:list={[
+              "mt-0.5 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs",
+              action.done
+                ? "bg-avec-green text-white"
+                : "bg-avec-gray-light text-avec-gray",
+            ]}>
+              {action.done ? "✓" : "○"}
+            </span>
+            <div class="flex-1">
+              <span class:list={[
+                "text-sm",
+                action.done ? "text-avec-green-dark font-medium" : "text-avec-dark-light",
+              ]}>
+                {action.label}
+              </span>
+              {action.date && (
+                <span class="text-xs text-avec-gray ml-2">({action.date})</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {body && (
+      <div class="mt-4 pt-4 border-t border-avec-gray-light/50 text-sm text-avec-dark-light leading-relaxed prose prose-sm max-w-none">
+        <Fragment set:html={body} />
+      </div>
+    )}
+  </div>
+</article>

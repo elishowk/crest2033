@@ -1,0 +1,51 @@
+---
+interface Props {
+  progress: number;
+  status: "non-demarree" | "en-cours" | "avancee" | "realisee";
+  size?: "sm" | "md" | "lg";
+}
+
+const { progress, status, size = "md" } = Astro.props;
+
+const statusColors: Record<string, string> = {
+  "non-demarree": "bg-avec-gray",
+  "en-cours": "bg-avec-terracotta",
+  "avancee": "bg-avec-gold",
+  "realisee": "bg-avec-green",
+};
+
+const statusLabels: Record<string, string> = {
+  "non-demarree": "Non démarrée",
+  "en-cours": "En cours",
+  "avancee": "Avancée",
+  "realisee": "Réalisée",
+};
+
+const heights: Record<string, string> = {
+  sm: "h-1.5",
+  md: "h-2.5",
+  lg: "h-4",
+};
+---
+
+<div class="w-full">
+  <div class="flex justify-between items-center mb-1">
+    <span class:list={[
+      "text-xs font-semibold px-2 py-0.5 rounded-full",
+      status === "non-demarree" && "bg-gray-100 text-gray-600",
+      status === "en-cours" && "bg-avec-terracotta/10 text-avec-terracotta",
+      status === "avancee" && "bg-avec-gold/20 text-avec-terracotta-dark",
+      status === "realisee" && "bg-avec-green/10 text-avec-green",
+    ]}>
+      {statusLabels[status]}
+    </span>
+    <span class="text-xs font-bold text-avec-dark-light">{progress}%</span>
+  </div>
+  <div class:list={["w-full bg-avec-gray-light rounded-full overflow-hidden", heights[size]]}>
+    <div
+      class:list={["rounded-full transition-all duration-700 ease-out", heights[size], statusColors[status]]}
+      style={`width: ${progress}%`}
+    >
+    </div>
+  </div>
+</div>

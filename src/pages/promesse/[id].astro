@@ -1,0 +1,103 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import ProgressBar from "../../components/ProgressBar.astro";
+import VoteButton from "../../components/VoteButton";
+import Comments from "../../components/Comments.astro";
+
+export async function getStaticPaths() {
+  const promesses = await getCollection("promesses");
+  return promesses.map((promesse) => ({
+    params: { id: promesse.id },
+    props: { promesse },
+  }));
+}
+
+const { promesse } = Astro.props;
+const { Content } = await render(promesse);
+const { title, icon, description, progress, status, actions } = promesse.data;
+const doneCount = actions.filter((a: { done: boolean }) => a.done).length;
+---
+
+<Layout title={title}>
+  <section class="bg-gradient-to-br from-avec-warm via-white to-avec-cream py-12 sm:py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-1 text-sm text-avec-terracotta font-medium mb-6 hover:underline"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+        </svg>
+        Retour aux engagements
+      </a>
+
+      <div class="flex items-center gap-4 mb-4">
+        <span class="text-4xl sm:text-5xl" role="img" aria-label={title}>{icon}</span>
+        <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-avec-dark">
+          {title}
+        </h1>
+      </div>
+      <p class="text-lg text-avec-dark-light leading-relaxed">
+        {description}
+      </p>
+    </div>
+  </section>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 relative z-10 pb-16">
+    <div class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 p-6 sm:p-8 mb-8">
+      <ProgressBar progress={progress} status={status} size="lg" />
+
+      <div class="mt-6 flex items-center gap-4">
+        <VoteButton client:idle id={`promesse-${promesse.id}`} label="Prioritaire" />
+        <span class="text-sm text-avec-gray">
+          {doneCount}/{actions.length} actions réalisées
+        </span>
+      </div>
+    </div>
+
+    {actions.length > 0 && (
+      <div class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 p-6 sm:p-8 mb-8">
+        <h2 class="font-heading font-bold text-xl text-avec-dark mb-4">
+          Actions concrètes
+        </h2>
+        <ul class="space-y-3">
+          {actions.map((action: { label: string; done: boolean; date?: string }) => (
+            <li class="flex items-start gap-3 p-3 rounded-xl bg-avec-cream/50">
+              <span class:list={[
+                "mt-0.5 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold",
+                action.done
+                  ? "bg-avec-green text-white"
+                  : "bg-avec-gray-light text-avec-gray",
+              ]}>
+                {action.done ? "✓" : "○"}
+              </span>
+              <div class="flex-1">
+                <span class:list={[
+                  "text-sm",
+                  action.done ? "text-avec-green-dark font-semibold" : "text-avec-dark",
+                ]}>
+                  {action.label}
+                </span>
+                {action.date && (
+                  <div class="text-xs text-avec-gray mt-0.5">{action.date}</div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 p-6 sm:p-8">
+      <h2 class="font-heading font-bold text-xl text-avec-dark mb-4">
+        Détails de l'engagement
+      </h2>
+      <div class="prose prose-sm max-w-none text-avec-dark-light prose-headings:text-avec-dark prose-headings:font-heading prose-strong:text-avec-dark">
+        <Content />
+      </div>
+    </div>
+
+    <Comments term={`promesse-${promesse.id}`} />
+  </div>
+</Layout>

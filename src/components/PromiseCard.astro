@@ -1,0 +1,56 @@
+---
+import ProgressBar from "./ProgressBar.astro";
+import VoteButton from "./VoteButton";
+
+interface Props {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  progress: number;
+  status: "non-demarree" | "en-cours" | "avancee" | "realisee";
+  actions: { label: string; done: boolean; date?: string }[];
+}
+
+const { id, title, icon, description, progress, status, actions } = Astro.props;
+const doneCount = actions.filter((a) => a.done).length;
+---
+
+<article class="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-avec-gray-light/60 overflow-hidden">
+  <a href={`/promesse/${id}`} class="block p-6">
+    <div class="flex items-start justify-between mb-4">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl" role="img" aria-label={title}>{icon}</span>
+        <h2 class="font-heading font-bold text-lg text-avec-dark group-hover:text-avec-terracotta transition-colors">
+          {title}
+        </h2>
+      </div>
+    </div>
+
+    <p class="text-sm text-avec-dark-light leading-relaxed mb-4">
+      {description}
+    </p>
+
+    <ProgressBar progress={progress} status={status} size="sm" />
+
+    {actions.length > 0 && (
+      <div class="mt-4 pt-3 border-t border-avec-gray-light/50">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-avec-gray">
+            {doneCount}/{actions.length} actions réalisées
+          </span>
+          <span class="text-xs text-avec-terracotta font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+            Voir le détail
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    )}
+  </a>
+
+  <div class="px-6 pb-4">
+    <VoteButton client:idle id={`promesse-${id}`} label="Prioritaire" />
+  </div>
+</article>

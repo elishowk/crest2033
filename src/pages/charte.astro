@@ -1,0 +1,83 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import CharteCard from "../components/CharteCard.astro";
+import Comments from "../components/Comments.astro";
+import VoteButton from "../components/VoteButton";
+
+const items = (await getCollection("charte")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const renderedItems = await Promise.all(
+  items.map(async (item) => {
+    const { Content } = await render(item);
+    return { ...item, Content };
+  }),
+);
+
+const allActions = items.flatMap((i) => i.data.actions);
+const doneCount = allActions.filter((a) => a.done).length;
+const totalCount = allActions.length;
+const globalProgress = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
+---
+
+<Layout title="Charte des élu·es">
+  <section class="bg-gradient-to-br from-avec-warm via-white to-avec-cream py-12 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-avec-dark leading-tight mb-4">
+        Charte des
+        <span class="text-avec-green">élu·es</span>
+      </h1>
+      <p class="text-lg text-avec-dark-light leading-relaxed mb-4">
+        Chaque candidat·e de la liste AVEC s'est engagé·e à signer une charte
+        visant à garantir un cadre de travail transparent et à restaurer
+        la confiance entre élu·es et citoyen·es.
+      </p>
+      <p class="text-sm text-avec-gray">
+        Suivez ici la mise en œuvre concrète de ces engagements.
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 relative z-10 mb-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-avec-gray-light/60 p-6">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-semibold text-avec-dark">Progression globale de la charte</span>
+        <span class="text-sm font-bold text-avec-green">{globalProgress}%</span>
+      </div>
+      <div class="w-full bg-avec-gray-light rounded-full h-3 overflow-hidden">
+        <div
+          class="bg-avec-green h-full rounded-full transition-all duration-700"
+          style={`width: ${globalProgress}%`}
+        />
+      </div>
+      <p class="text-xs text-avec-gray mt-2">
+        {doneCount} actions réalisées sur {totalCount}
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="space-y-6">
+      {renderedItems.map(({ id, data, Content }) => (
+        <div>
+          <CharteCard
+            id={id}
+            title={data.title}
+            icon={data.icon}
+            description={data.description}
+            status={data.status}
+            actions={data.actions}
+            body=""
+          />
+          <div class="mt-2 ml-6">
+            <VoteButton client:idle id={`charte-${id}`} label="Important" />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <Comments term="charte-des-elus" />
+  </section>
+</Layout>
