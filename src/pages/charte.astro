@@ -2,7 +2,6 @@
 import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import CharteCard from "../components/CharteCard.astro";
-import Comments from "../components/Comments.astro";
 import VoteButton from "../components/VoteButton";
 
 const items = (await getCollection("charte")).sort(
@@ -30,7 +29,7 @@ const globalProgress = totalCount > 0 ? Math.round((doneCount / totalCount) * 10
         <span class="text-avec-green">élu·es</span>
       </h1>
       <p class="text-lg text-avec-dark-light leading-relaxed mb-4">
-        Chaque candidat·e de la liste AVEC s'est engagé·e à signer une charte
+        Chaque candidat·e de la majorité municipale s'est engagé·e à signer une charte
         visant à garantir un cadre de travail transparent et à restaurer
         la confiance entre élu·es et citoyen·es.
       </p>
@@ -78,6 +77,5 @@ const globalProgress = totalCount > 0 ? Math.round((doneCount / totalCount) * 10
       ))}
     </div>
 
-    <Comments term="charte-des-elus" />
   </section>
 </Layout>

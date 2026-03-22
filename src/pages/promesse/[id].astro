@@ -3,7 +3,6 @@ import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import ProgressBar from "../../components/ProgressBar.astro";
 import VoteButton from "../../components/VoteButton";
-import Comments from "../../components/Comments.astro";
 
 export async function getStaticPaths() {
   const promesses = await getCollection("promesses");
@@ -98,6 +97,5 @@ const doneCount = actions.filter((a: { done: boolean }) => a.done).length;
       </div>
     </div>
 
-    <Comments term={`promesse-${promesse.id}`} />
   </div>
 </Layout>
